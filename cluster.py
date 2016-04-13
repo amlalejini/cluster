@@ -33,7 +33,7 @@ class KMeansCluster(object):
         '''
         # Check that num_bins >= len(data)
         if num_bins >= len(self.data) or num_bins == 0:
-            print "Number of bins must be >= length of data and cannot be 0!"
+            print "Number of bins must be <= length of data and cannot be 0!"
             return -1
         # Initialize k bins
         bins = [{"data": [], "centroid": None, "bin_id": i} for i in range(0, num_bins)]

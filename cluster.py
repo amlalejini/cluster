@@ -55,7 +55,6 @@ class KMeansCluster(object):
         iters = 0
         while True:
             iters += 1
-            print "======="
             print "ITER: " + str(iters)
             # 1) Refine assignments
             new_bins = [{"data": [], "centroid": bins[i]["centroid"], "bin_id": bins[i]["bin_id"]} for i in range(0, len(bins))]
@@ -75,7 +74,7 @@ class KMeansCluster(object):
                     # Assign data point to where it best fits
                     new_bins[best_fit]["data"].append(copy.deepcopy(datum))
             bins = new_bins
-            print "Bins post-refinement: " + str(bins)
+            #print "Bins post-refinement: " + str(bins)
             # 2) Update centroids and resolve empty bins
             if self.force_k:
                 # We're forcing there to be k bins; handle bins accordingly
@@ -90,7 +89,7 @@ class KMeansCluster(object):
                         nonempty_bins.append(bi)
                 # Resolve the empty bins
                 for e_i in empty_bins:
-                    print "There was an empty bin!"
+                    #print "There was an empty bin!"
                     # Recruit a new member!
                     biggest_dev = {"cluster_i": -1, "data_i": -1, "deviation": -1}
                     for n_i in nonempty_bins:
@@ -107,13 +106,13 @@ class KMeansCluster(object):
                     bins[biggest_dev["cluster_i"]]["centroid"] = self.calculateCentroid(bins[biggest_dev["cluster_i"]]["data"])
             else:
                 # We do not force K: update non-empty bins, delete empty bins
-                for bi in range(len(bins), -1, -1, -1):
+                for bi in range(len(bins) - 1, -1, -1):
                     if len(bins[bi]["data"]) == 0:
                         del bins[bi]
                     else:
                         # Bin is not empty, update its centroid
                         bins[bi]["centroid"] = self.calculateCentroid(bins[bi]["data"])
-            print "Bins post centroid update: " + str(bins)
+            #print "Bins post centroid update: " + str(bins)
             # Are we done?
             if not something_moved: break
         # return all 'dem clusters
